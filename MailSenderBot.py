@@ -9,7 +9,6 @@ from email.mime.application import MIMEApplication
 
 # Before using the bot you have to lower the security in your email - Desctivate 2FA and Activate less secure
 # Copy your mails receiver in emails text file 
-
 def sendMail(password,sender,receiver,filePath,mailContent,mailSubject):
     mail_content = mailContent
     
@@ -44,24 +43,24 @@ def sendMail(password,sender,receiver,filePath,mailContent,mailSubject):
     print('Mail Sent to : '+ receiver_address)
 
 
-
-
-with open('emails.txt') as f:
+# Read List of Mails and Mail Content
+with open('emails.txt',) as f:
     lines = f.readlines()
 mails = "".join(lines).replace("\n","+").split("+")
 
+with open('MailContent.txt',encoding='utf8') as f:
+     Content = f.read()
 
 
 # Define the mail content object and file : 
-Content = ''' Copy the Content Here '''
-Subject = "Subject Here"
+Subject = input("Email Subject : ")
 Sender = input("Your Email : ")
 Password = getpass("Email Password : ")
-filePath = "path"
+filePath = input("File to send  : (Example C:/file.pdf) ")
 
 
 
-
+# Send Mails
 for mail in mails:
     sendMail(Password,Sender,mail,filePath,Content,Subject)
     time.sleep(5)
