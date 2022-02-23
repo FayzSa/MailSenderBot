@@ -67,7 +67,7 @@ Password = getpass("Email Password : ")
 
 # Send Mails
 for mail in mails:
-    sendMail(Password,Sender,mail,filePath,Content,Subject)
+    sendMail(Password,Sender,mail,files,Content,Subject)
     time.sleep(5)
 
 
