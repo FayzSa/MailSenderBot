@@ -25,14 +25,15 @@ def sendMail(password,sender,receiver,filePath,mailContent,mailSubject):
     #The body and the attachments for the mail
     message.attach(MIMEText(mail_content, 'plain')) 
     file = filePath
-    with open(file, "rb") as fil:
-        part = MIMEApplication(
-            fil.read(),
-            Name=basename(file)
+    for f in file or []:
+        with open(f, "rb") as fil:
+            part = MIMEApplication(
+                fil.read(),
+                Name=basename(f)
             )
         # After the file is closed
-    part['Content-Disposition'] = 'attachment; filename="%s"' % basename(file)
-    message.attach(part)
+        part['Content-Disposition'] = 'attachment; filename="%s"' % basename(f)
+        message.attach(part)
 
     #Create SMTP session for sending the mail
     session = sm.SMTP('smtp.gmail.com', 587) #use gmail with port
@@ -44,7 +45,7 @@ def sendMail(password,sender,receiver,filePath,mailContent,mailSubject):
     print('Mail Sent to : '+ receiver_address)
 
 
-# Read List of Mails and Mail Content
+# Read List of Mails , Mail Content and Attachements
 with open('emails.txt',) as f:
     lines = f.readlines()
 mails = "".join(lines).replace("\n","+").split("+")
@@ -52,12 +53,15 @@ mails = "".join(lines).replace("\n","+").split("+")
 with open('MailContent.txt',encoding='utf8') as f:
      Content = f.read()
 
+with open('files.txt',) as f:
+    lines = f.readlines()
+files = "".join(lines).replace("\n","+").split("+")
+#  (Example C:/file.pdf) 
 
 # Define the mail content object and file : 
 Subject = input("Email Subject : ")
 Sender = input("Your Email : ")
 Password = getpass("Email Password : ")
-filePath = input("File to send  : (Example C:/file.pdf) ")
 
 
 
